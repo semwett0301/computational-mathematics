@@ -17,7 +17,7 @@ def hord_method(function, a, b, e):
 
         x = x0 - (fixed - x0) / (function(fixed) - function(x0)) * function(x0)
 
-        while abs(x - x0) > e:
+        while abs(x - x0) > e and abs(function(x)) > e:
             x0 = x
             x = x0 - (fixed - x0) / (function(fixed) - function(x0)) * function(x0)
             iter_count += 1

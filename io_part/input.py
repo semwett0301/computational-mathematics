@@ -6,6 +6,57 @@ from math_part import own_functions
 from io_part import output as o
 
 
+def input_function():
+    input_str = "Выберите функцию:\n"
+    input_func_str = ""
+    for i in range(1, len(own_functions.single_functions) + 1):
+        input_func_str = input_func_str + own_functions.single_functions[i]["function"] + " | " + colored(str(i),
+                                                                                                          'yellow') + "\n"
+
+    while True:
+        try:
+            number = int(input(input_str + input_func_str))
+            if number < 1 or number > len(own_functions.single_functions):
+                o.print_error("Выбрано неверное число")
+            else:
+                return number
+        except ValueError:
+            o.print_error("Некорректный формат ввода")
+
+
+def input_functions():
+    input_str = "Выберите функции:\n"
+    input_func_str = ""
+    for i in range(1, len(own_functions.system_functions) + 1):
+        input_func_str = input_func_str + own_functions.system_functions[i]["function"] + " | " + colored(str(i),
+                                                                                                          'yellow') + "\n"
+
+    while True:
+        numbers_array = input(input_str + input_func_str).split(" ")
+        numbers = []
+        try:
+            for i in range(len(numbers_array)):
+                numbers_array[i] = int(numbers_array[i])
+        except ValueError:
+            o.print_error("Некорректный ввод данных")
+            continue
+
+        if len(numbers_array) != 2:
+            o.print_error("Нужно ввести два элемента")
+            continue
+
+        for number in numbers_array:
+            if numbers.count(number) > 0:
+                continue
+            else:
+                numbers.append(number)
+
+        if len(numbers) != len(numbers_array):
+            o.print_error("Присутствуют два одинаковых числа")
+        else:
+            return numbers
+
+
 def input_file_mode(str):
     while True:
         try:
@@ -16,9 +67,8 @@ def input_file_mode(str):
                 return mode
         except ValueError:
             o.print_error("Некорректный формат ввода")
-
-
 def input_all_data():
+
     def input_single_or_system():
         while True:
             try:
@@ -44,23 +94,6 @@ def input_all_data():
             try:
                 number = int(input(input_str))
                 if number != 1 and number != 2:
-                    o.print_error("Выбрано неверное число")
-                else:
-                    return number
-            except ValueError:
-                o.print_error("Некорректный формат ввода")
-
-    def input_function():
-        input_str = "Выберите функцию:\n"
-        input_func_str = ""
-        for i in range(1, len(own_functions.single_functions) + 1):
-            input_func_str = input_func_str + own_functions.single_functions[i]["function"] + " | " + colored(str(i),
-                                                                                                              'yellow') + "\n"
-
-        while True:
-            try:
-                number = int(input(input_str + input_func_str))
-                if number < 1 or number > len(own_functions.single_functions):
                     o.print_error("Выбрано неверное число")
                 else:
                     return number
@@ -116,6 +149,8 @@ def input_all_data():
                 "fault": input_fault()
             }
 
+    # для системы
+
     def input_single_by_file(function_data):
         try:
             file = open(os.path.abspath(os.curdir) + '\\' + "input_single.txt", 'r')
@@ -143,40 +178,6 @@ def input_all_data():
 
         except Exception:
             return None
-
-    # для системы
-
-    def input_functions():
-        input_str = "Выберите функции:\n"
-        input_func_str = ""
-        for i in range(1, len(own_functions.system_functions) + 1):
-            input_func_str = input_func_str + own_functions.system_functions[i]["function"] + " | " + colored(str(i),
-                                                                                                              'yellow') + "\n"
-
-        while True:
-            numbers_array = input(input_str + input_func_str).split(" ")
-            numbers = []
-            try:
-                for i in range(len(numbers_array)):
-                    numbers_array[i] = int(numbers_array[i])
-            except ValueError:
-                o.print_error("Некорректный ввод данных")
-                continue
-
-            if len(numbers_array) != 2:
-                o.print_error("Нужно ввести два элемента")
-                continue
-
-            for number in numbers_array:
-                if numbers.count(number) > 0:
-                    continue
-                else:
-                    numbers.append(number)
-
-            if len(numbers) != len(numbers_array):
-                o.print_error("Присутствуют два одинаковых числа")
-            else:
-                return numbers
 
     def input_start_x():
         while True:
