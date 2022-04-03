@@ -49,4 +49,4 @@ def integrate_function(function, method_number, a, b, accuracy):
         first_value = method(function, a, b, n)
         second_value = method(function, a, b, n * 2)
 
-    return first_value, n
+    return second_value, n * 2
