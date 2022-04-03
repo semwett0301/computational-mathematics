@@ -1,6 +1,6 @@
 import numpy as np
 
-functions = {
+functions_without_break = {
     1: {
         "function": "x^3 - x + 4",
         "value": lambda x: x ** 3 - x + 4
@@ -16,5 +16,23 @@ functions = {
     4: {
         "function": "sin(x)^2 + cos(x)",
         "value": lambda x: np.sin(x) ** 2 + np.cos(x)
+    }
+}
+
+functions_with_break = {
+    1: {
+        "function": "1 / x^3",
+        "value": lambda x: 1 / x ** 3,
+        "break": [0]
+    },
+    2: {
+        "function": "1 / sqrt(2 - x)",
+        "value": lambda x: 1 / (2 - x) ** 0.5,
+        "break": [2]
+    },
+    3: {
+        "function": "sin(x) / x",
+        "value": lambda x: np.sin(x) / x,
+        "break": [0]
     }
 }

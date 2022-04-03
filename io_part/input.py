@@ -4,7 +4,20 @@ from math_part import own_functions
 from termcolor import colored
 
 
-def input_all_data():
+def input_mode():
+    while True:
+        try:
+            m = int(input("Вы хотите вычислить интеграл функции с разрывом или без разрыва?" + colored(
+                " (1 - без разрыва, 2 - с разрывом)\n", 'green')))
+            if m != 2 and m != 1:
+                o.print_error("Введено неверное число")
+            else:
+                return m
+        except ValueError:
+            o.print_error("Некорректный формат ввода")
+
+
+def input_integrate_data(mode):
     def input_method():
         input_str = "Выберите метод:\n"
         input_func_str = ""
@@ -18,7 +31,7 @@ def input_all_data():
         while True:
             try:
                 number = int(input(input_str + input_func_str))
-                if number < 1 or number > len(own_functions.functions):
+                if number < 1 or number > len(own_functions.functions_without_break):
                     o.print_error("Выбрано неверное число")
                 else:
                     return number
@@ -28,17 +41,31 @@ def input_all_data():
     def input_function():
         input_str = "Выберите функцию:\n"
         input_func_str = ""
-        for i in range(1, len(own_functions.functions) + 1):
-            input_func_str = input_func_str + own_functions.functions[i]["function"] + " | " + colored(str(i),
-                                                                                                       'yellow') + "\n"
+        if mode == 1:
+            for i in range(1, len(own_functions.functions_without_break) + 1):
+                input_func_str = input_func_str + own_functions.functions_without_break[i][
+                    "function"] + " | " + colored(
+                    str(i),
+                    'yellow') + "\n"
+        else:
+            for i in range(1, len(own_functions.functions_with_break) + 1):
+                input_func_str = input_func_str + own_functions.functions_with_break[i]["function"] + " | " + colored(
+                    str(i),
+                    'yellow') + "\n"
 
         while True:
             try:
                 number = int(input(input_str + input_func_str))
-                if number < 1 or number > len(own_functions.functions):
-                    o.print_error("Выбрано неверное число")
+                if mode == 1:
+                    if number < 1 or number > len(own_functions.functions_without_break):
+                        o.print_error("Выбрано неверное число")
+                    else:
+                        return number
                 else:
-                    return number
+                    if number < 1 or number > len(own_functions.functions_with_break):
+                        o.print_error("Выбрано неверное число")
+                    else:
+                        return number
             except ValueError:
                 o.print_error("Некорректный формат ввода")
 
@@ -73,11 +100,21 @@ def input_all_data():
     a, b, mul = input_border()
     e = input_accuracy()
 
-    return {
-        "method_number": method,
-        "function": own_functions.functions[func]["value"],
-        "left_border": a,
-        "right_border": b,
-        "accuracy": e,
-        "mul": mul
-    }
+    if mode == 1:
+        return {
+            "method_number": method,
+            "function": func,
+            "left_border": a,
+            "right_border": b,
+            "accuracy": e,
+            "mul": mul
+        }
+    else:
+        return {
+            "method_number": method,
+            "function": func,
+            "left_border": a,
+            "right_border": b,
+            "accuracy": e,
+            "mul": mul
+        }
