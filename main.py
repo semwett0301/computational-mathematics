@@ -36,12 +36,12 @@ print(colored(frame.set_index('f(x)'), 'green'))
 plt.step(sort_selection, f_empire)
 plt.show()
 
-bins_num = int(1+np.log2(sort_selection.size))
-sns.histplot(sort_selection, kde=True, stat='density', bins=bins_num)
+data_for_gist = int(1 + np.log2(sort_selection.size))
+sns.histplot(sort_selection, kde=True, stat='density', bins=data_for_gist)
 plt.show()
 
-bins_width = (max - min) / bins_num
-y, edges = np.histogram(sort_selection, np.arange(min, max + 0.1, bins_width))
+data_for_polygon = (max - min) / data_for_gist
+y, edges = np.histogram(sort_selection, np.arange(min, max + 0.1, data_for_polygon))
 centers = 0.5 * (edges[1:] + edges[:-1])
 plt.plot(centers, y)
 plt.xticks(edges)
