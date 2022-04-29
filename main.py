@@ -41,9 +41,9 @@ sns.histplot(sort_selection, kde=True, stat='density', bins=data_for_gist)
 plt.show()
 
 data_for_polygon = (max - min) / data_for_gist
-y, edges = np.histogram(sort_selection, np.arange(min, max + 0.1, data_for_polygon))
-centers = 0.5 * (edges[1:] + edges[:-1])
+y, edg = np.histogram(sort_selection, np.arange(min, max + 0.1, data_for_polygon))
+centers = 0.5 * (edg[1:] + edg[:-1])
 plt.plot(centers, y)
-plt.xticks(edges)
+plt.xticks(edg)
 plt.yticks(y)
 plt.show()
