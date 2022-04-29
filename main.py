@@ -42,7 +42,7 @@ n = int(1 + np.log2(sort_selection.size))
 h = (max - min) / n
 
 intervals = []
-start = sort_selection[0] - h / 2
+start = sort_selection[0]
 for i in range(n):
     intervals.append('(' + '%.3f' % start + ';' + '%.3f' % (start + h) + ']')
     start = start + h
@@ -68,6 +68,7 @@ plt.show()
 
 y, edg = np.histogram(sort_selection, np.arange(min, max + 0.1, h))
 centers = 0.5 * (edg[1:] + edg[:-1])
+y = y / 20
 plt.plot(centers, y)
 plt.xticks(edg)
 plt.yticks(y)
