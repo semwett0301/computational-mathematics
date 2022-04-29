@@ -28,20 +28,45 @@ for i in range(sort_selection.size):
     f_empire.append(i / sort_selection.size)
 segments = ['(' + str(sort_selection[i]) + ';' + str(sort_selection[i + 1]) + ']' for i in range(sort_selection.size - 1)]
 segments.insert(0, str('(-oo;' + str(sort_selection[0]) + '0]'))
+
 frame = pd.DataFrame({'f(x)': f_empire, 'segment': segments})
 
 print('\nЗначения эмпирической функции:')
 print(colored(frame.set_index('f(x)'), 'green'))
+print(colored('1.00     (1.11;+oo)', 'green'))
 
 plt.step(sort_selection, f_empire)
 plt.show()
 
-data_for_gist = int(1 + np.log2(sort_selection.size))
-sns.histplot(sort_selection, kde=True, stat='density', bins=data_for_gist)
+n = int(1 + np.log2(sort_selection.size))
+h = (max - min) / n
+
+intervals = []
+start = sort_selection[0] - h / 2
+for i in range(n):
+    intervals.append('(' + '%.3f' % start + ';' + '%.3f' % (start + h) + ']')
+    start = start + h
+
+intervals_val = []
+x0 = sort_selection[0]
+count = 0
+for i in sort_selection:
+    if i > x0 + h:
+        x0 = x0 + h
+        intervals_val.append(count)
+        count = 1
+    else:
+        count += 1
+intervals_val[len(intervals_val) - 1] += 1
+
+print('\nИнтервальный статистический ряд:')
+print(colored(pd.DataFrame({'interval': intervals, 'frequency': intervals_val}).set_index('interval'), 'green'))
+
+# kde = False
+sns.histplot(sort_selection, stat='density', bins=n)
 plt.show()
 
-data_for_polygon = (max - min) / data_for_gist
-y, edg = np.histogram(sort_selection, np.arange(min, max + 0.1, data_for_polygon))
+y, edg = np.histogram(sort_selection, np.arange(min, max + 0.1, h))
 centers = 0.5 * (edg[1:] + edg[:-1])
 plt.plot(centers, y)
 plt.xticks(edg)
