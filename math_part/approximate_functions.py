@@ -67,18 +67,12 @@ def squad_app(points):
         s_x_x_y += points[i][0] * points[i][0] * points[i][1]
 
     matrix = [
-        [n, s_x, s_x_x],
-        [s_x, s_x_x, s_x_x_x],
-        [s_x_x, s_x_x_x, s_x_x_x_x]
+        [n, s_x, s_x_x, s_y],
+        [s_x, s_x_x, s_x_x_x, s_x_y],
+        [s_x_x, s_x_x_x, s_x_x_x_x, s_x_x_y]
     ]
 
-    results_for_calc = [
-        s_y,
-        s_x_y,
-        s_x_x_y
-    ]
-
-    a_0, a_1, a_2 = mi.calculating_unknowns(matrix, results_for_calc)
+    a_0, a_1, a_2 = mi.calculating_unknowns(matrix)
 
     if a_0 == a_1 == a_2 == 0:
         function = s = sigma = None
@@ -113,20 +107,13 @@ def qub_appr(points):
         s_x_3_y += points[i][0] * points[i][0] * points[i][0] * points[i][1]
 
     matrix = [
-        [n, s_x, s_x_2, s_x_3],
-        [s_x, s_x_2, s_x_3, s_x_4],
-        [s_x_2, s_x_3, s_x_4, s_x_5],
-        [s_x_3, s_x_4, s_x_5, s_x_6]
+        [n, s_x, s_x_2, s_x_3, s_y],
+        [s_x, s_x_2, s_x_3, s_x_4, s_x_y],
+        [s_x_2, s_x_3, s_x_4, s_x_5, s_x_2_y],
+        [s_x_3, s_x_4, s_x_5, s_x_6, s_x_3_y]
     ]
 
-    results_for_calc = [
-        s_y,
-        s_x_y,
-        s_x_2_y,
-        s_x_3_y
-    ]
-
-    a_0, a_1, a_2, a_3 = mi.calculating_unknowns(matrix, results_for_calc)
+    a_0, a_1, a_2, a_3 = mi.calculating_unknowns(matrix)
 
     if a_0 == a_1 == a_2 == a_3 == 0:
         function = s = sigma = None
@@ -141,3 +128,6 @@ def qub_appr(points):
         "s": s,
         "sigma": sigma
     }
+
+def exp_appr(poins):
+
