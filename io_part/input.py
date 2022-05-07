@@ -29,8 +29,7 @@ def input_number():
 
 def input_dots_by_screen(n):
     print("Введите координаты точек через пробел:")
-    x_val = []
-    y_val = []
+    points = []
 
     for i in range(n):
         while True:
@@ -41,18 +40,16 @@ def input_dots_by_screen(n):
                 try:
                     x = float(tmp_dot[0])
                     y = float(tmp_dot[1])
-                    x_val.append(x)
-                    y_val.append(y)
+                    points.append([x, y])
                     break
                 except ValueError:
                     o.print_error("Некорректный формат ввода")
 
-    return x_val, y_val
+    return points
 
 
 def input_dots_by_file():
-    x_val = []
-    y_val = []
+    points = []
 
     file = open(os.path.abspath(os.curdir) + '\\' + "input.txt", 'r')
     rows = file.read().split('\n')
@@ -60,10 +57,9 @@ def input_dots_by_file():
     for i in rows:
         try:
             i = i.split(' ')
-            x_val.append(float(i[0]))
-            y_val.append(float(i[1]))
+            points.append([float(i[0]), float(i[1])])
         except ValueError:
             o.print_error("Некорректный формат файла")
-            return None, None
+            return None
 
-    return x_val, y_val
+    return points
