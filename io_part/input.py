@@ -3,6 +3,18 @@ import os
 from io_part import output as o
 
 
+def input_print_mode():
+    while True:
+        try:
+            mode = int(input("Вы хотите записать данные в файл или вывести на экран? (1 - файл, 2 - экран) "))
+            if mode != 1 and mode != 2:
+                o.print_error("Выбрано неверное число")
+            else:
+                return mode
+        except ValueError:
+            o.print_error("Некорректный формат ввода")
+
+
 def input_file_mode():
     while True:
         try:
