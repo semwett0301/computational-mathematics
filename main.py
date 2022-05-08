@@ -14,19 +14,19 @@ if points is not None:
 
     min_sigma = None
     result_name = ''
-    for i in approximation_results:
-        if i['sigma'] is not None:
+    for elem in approximation_results:
+        if elem['sigma'] is not None:
             if min_sigma is None:
-                min_sigma = i['sigma']
-                result_name = i['name']
-            elif min_sigma > i['sigma']:
-                min_sigma = i['sigma']
-                result_name = i['name']
+                min_sigma = elem['sigma']
+                result_name = elem['name']
+            elif min_sigma > elem['sigma']:
+                min_sigma = elem['sigma']
+                result_name = elem['name']
 
     output_mode = i.input_print_mode()
     if output_mode == 2:
-        for i in approximation_results:
-            o.output_appr_results_by_screen(i)
+        for elem in approximation_results:
+            o.output_appr_results_by_screen(elem)
         o.print_results_by_screen(min_sigma, result_name)
     else:
         a = 0
