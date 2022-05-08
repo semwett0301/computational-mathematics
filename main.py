@@ -29,7 +29,7 @@ if points is not None:
             o.output_appr_results_by_screen(elem)
         o.print_results_by_screen(min_sigma, result_name)
     else:
-        a = 0
+        o.output_results_in_file(approximation_results, result_name, min_sigma)
 
     o.plot_func(points, approximation_results[0]['lambda'], approximation_results[1]['lambda'], approximation_results[2]['lambda'],
                 approximation_results[3]['lambda'], approximation_results[4]['lambda'], approximation_results[5]['lambda'])

@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 from termcolor import colored
@@ -14,7 +16,7 @@ def output_appr_results_by_screen(results):
         if results['r'] is None:
             print_error("\nНе удалось посчитать коэффициент Пирсона")
         else:
-            print(colored("\nКоэффициент корреляции Пирсона: " + str(results['r']) + '\n', 'yellow'))
+            print(colored("\nКоэффициент Пирсона: " + str(results['r']) + '\n', 'yellow'))
 
     if results['function'] is None:
         print_error(
@@ -29,6 +31,35 @@ def output_appr_results_by_screen(results):
 def print_results_by_screen(min_sigma, name):
     print(colored(f"Лучшая аппроксимация: {name}", 'cyan'))
     print(colored(f"Лучшее СКО: {min_sigma}", 'cyan'))
+
+
+def output_results_in_file(results, name, min_sigma):
+    try:
+        file = open(os.path.abspath(os.curdir) + '\\' + "output.txt", 'w')
+        for elem in results:
+            name = elem['name']
+
+            if 'r' in elem:
+                if elem['r'] is None:
+                    file.write("Не удалось посчитать коэффициент Пирсона")
+                else:
+                    file.write("Коэффициент Пирсона: " + str(elem['r']) + '\n')
+
+            if elem['function'] is None:
+                file.write(
+                    name + " аппроксимация не была выполнена - значения расходятся или некоторые точки не попадают в область определения функции.\n"
+                           "Невозможно найти ответ")
+            else:
+                file.write(name + " аппроксимация была выполнена")
+                file.write("\nПолученная функция: " + elem['function']
+                                   + '\nS = ' + str(elem['s']) + "\nsigma = " + str(elem['sigma']) + '\n\n')
+
+        file.write(f"Лучшая аппроксимация: {name}\n")
+        file.write(f"Лучшее СКО: {min_sigma}")
+
+        file.close()
+    except FileNotFoundError:
+        print_error("Файл не может быть открыт")
 
 
 def plot_func(points, lin_app, sqd_app, qub_app, log_app, exp_app, deg_app):
@@ -71,7 +102,8 @@ def plot_func(points, lin_app, sqd_app, qub_app, log_app, exp_app, deg_app):
     if deg_app is not None:
         ax.plot(x, deg_app(x), "purple", linewidth=2.0, label="deg")
     ax.legend()
-    ax.plot(points_x, points_y, linewidth=0 ,marker="*", markersize=10, markeredgecolor="black", markerfacecolor="green")
+    ax.plot(points_x, points_y, linewidth=0, marker="*", markersize=10, markeredgecolor="black",
+            markerfacecolor="green")
 
     ax.set(xlim=(minimum_x - 0.5, maximum_x + 0.5), xticks=np.arange(minimum_x, maximum_x, 0.5),
            ylim=(minimum_y - 0.5, maximum_y + 0.5), yticks=np.arange(minimum_y, maximum_y, 0.5))
