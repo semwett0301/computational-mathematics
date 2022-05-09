@@ -33,7 +33,7 @@ def print_results_by_screen(min_sigma, name):
     print(colored(f"Лучшее СКО: {min_sigma}", 'cyan'))
 
 
-def output_results_in_file(results, name, min_sigma):
+def output_results_in_file(results, result_name, min_sigma):
     try:
         file = open(os.path.abspath(os.curdir) + '\\' + "output.txt", 'w')
         for elem in results:
@@ -54,7 +54,7 @@ def output_results_in_file(results, name, min_sigma):
                 file.write("\nПолученная функция: " + elem['function']
                                    + '\nS = ' + str(elem['s']) + "\nsigma = " + str(elem['sigma']) + '\n\n')
 
-        file.write(f"Лучшая аппроксимация: {name}\n")
+        file.write(f"Лучшая аппроксимация: {result_name}\n")
         file.write(f"Лучшее СКО: {min_sigma}")
 
         file.close()
@@ -91,8 +91,8 @@ def plot_func(points, lin_app, sqd_app, qub_app, log_app, exp_app, deg_app):
     ax.xaxis.set_ticks_position('bottom')
     ax.yaxis.set_ticks_position('left')
 
-    ax.plot(x, lin_app(x), "r", linewidth=2.0, label="linear")
-    ax.plot(x, sqd_app(x), "g", linewidth=2.0, label="squad")
+    ax.plot(x, lin_app(x), "g", linewidth=2.0, label="linear")
+    ax.plot(x, sqd_app(x), "r", linewidth=2.0, label="squad")
     ax.plot(x, qub_app(x), "b", linewidth=2.0, label="cube")
     if exp_app is not None:
         ax.plot(x, exp_app(x), "pink", linewidth=2.0, label="exp")
@@ -100,12 +100,12 @@ def plot_func(points, lin_app, sqd_app, qub_app, log_app, exp_app, deg_app):
     if log_app is not None:
         ax.plot(x, log_app(x), "darkred", linewidth=2.0, label="log")
     if deg_app is not None:
-        ax.plot(x, deg_app(x), "purple", linewidth=2.0, label="deg")
+        ax.plot(x, deg_app(x), "black", linewidth=2.0, label="deg")
     ax.legend()
-    ax.plot(points_x, points_y, linewidth=0, marker="*", markersize=10, markeredgecolor="black",
-            markerfacecolor="green")
+    ax.plot(points_x, points_y, linewidth=0, marker=".", markersize=10, markeredgecolor="black",
+            markerfacecolor="black")
 
-    ax.set(xlim=(minimum_x - 0.5, maximum_x + 0.5), xticks=np.arange(minimum_x, maximum_x, 0.5),
-           ylim=(minimum_y - 0.5, maximum_y + 0.5), yticks=np.arange(minimum_y, maximum_y, 0.5))
+    ax.set(xlim=(minimum_x - 1, maximum_x + 1), xticks=np.arange(minimum_x - 1, maximum_x + 1, 1),
+           ylim=(minimum_y - 1, maximum_y + 1), yticks=np.arange(minimum_y - 1, maximum_y + 1, 1))
 
     plt.show()
