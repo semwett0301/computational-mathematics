@@ -1,31 +1,57 @@
 import math
 
 
-def calculating_unknowns(matrix):
-    n = len(matrix)
-    e = 0.0000001
-    vector_old_ans = [0] * n
-    vector_ans = [0] * n
-    diff = e + 1
-    num = 0
+def swap_rows(matrix_for_swap, results, row1, row2):
+    matrix_for_swap[row1], matrix_for_swap[row2] = matrix_for_swap[row2], matrix_for_swap[row1]
+    results[row1], results[row2] = results[row2], results[row1]
 
-    while diff > e:
-        for i in range(n):
-            summary = 0
-            for j in range(n):
-                if i != j:
-                    summary += matrix[i][j] / matrix[i][i] * vector_ans[j]
-            vector_ans[i] = matrix[i][n] / matrix[i][i] - summary
-        for i in vector_ans:
-            if i is None or i == math.inf or i == -math.inf:
-                return [0] * n
 
-        max_difference = 0.0
-        for i in range(n):
-            if abs(vector_old_ans[i] - vector_ans[i]) > max_difference:
-                max_difference = abs(vector_old_ans[i] - vector_ans[i])
-        diff = max_difference
-        for i in range(n):
-            vector_old_ans[i] = vector_ans[i]
-        num += 1
-    return vector_ans
+def calculating_determinant_in_triangle_matrix(matrix_for_calculate):
+    det = 1
+    for i in range(0, len(matrix_for_calculate)):
+        det *= matrix_for_calculate[i][i]
+    return det
+
+
+def straight_running(matrix, results):
+    for i in range(len(matrix) - 1):
+        swap = i
+        for swap_counter in range(i + 1, len(matrix)):
+            if abs(matrix[i][i]) < abs(matrix[swap_counter][i]):
+                swap = swap_counter
+        if i != swap:
+            swap_rows(matrix, results, i, swap)
+
+
+        # while matrix[i][i] == 0 and swap_counter < len(matrix):
+        #     swap_counter += 1
+
+        if matrix[i][i] == 0:
+            return matrix, results
+
+        for k in range(i + 1, len(matrix)):
+            c = matrix[k][i] / matrix[i][i]
+            matrix[k][i] = 0
+            for j in range(i + 1, len(matrix)):
+                matrix[k][j] = matrix[k][j] - c * matrix[i][j]
+            results[k] = results[k] - c * results[i]
+    return matrix, results
+
+
+def reverse_running(matrix, results):
+    unknowns = []
+    for i in range(len(matrix) - 1, -1, -1):
+        s = 0
+        unknown_number = len(unknowns) - 1
+        for j in range(i + 1, len(matrix)):
+            s += matrix[i][j] * unknowns[unknown_number]
+            unknown_number -= 1
+        unknowns.append((results[i] - s) / matrix[i][i])
+    return list(reversed(unknowns))
+
+
+def calculating_unknowns(matrix, results):
+    straight_running(matrix, results)
+    if calculating_determinant_in_triangle_matrix(matrix) != 0:
+        return reverse_running(matrix, results)
+    return [0]
