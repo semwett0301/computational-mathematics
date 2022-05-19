@@ -1,16 +1,21 @@
-# This is a sample Python script.
+from io_part import input as inp, output, drawing as draw
+from math_part import functions as func, interpolate_methods as methods
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+interpolate_function = None
+
+if inp.input_source_mode() == 1:
+    if inp.input_file_mode() == 1:
+        points = inp.input_dots_by_file()
+    else:
+        points = inp.input_dots_by_screen(inp.input_number())
+else:
+    interpolate_function = func.functions[inp.input_function()]["value"]
+    a, b = inp.input_borders()
+    points = func.get_points_from_function(interpolate_function, a, b, inp.input_step())
+
+argument = inp.input_argument()
+
+output.print_result_of_interpolation(points, argument)
+draw.drawing_functions(interpolate_function, points)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
