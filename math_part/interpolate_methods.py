@@ -38,8 +38,8 @@ def gauss_method(points, x):
         return tmp
 
     n = len(points)
-    if n % 2 == 0:
-        return
+    # if n % 2 == 0:
+    #     return
     points.sort(key=lambda elem: elem[0])
     h = points[1][0] - points[0][0]
     for i in range(n - 1):
@@ -59,10 +59,16 @@ def gauss_method(points, x):
     t = (x - points[int(n / 2)][0]) / h
     if x > points[n // 2][0]:
         for i in range(1, n):
-            result += calculate_t_first(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
+            if n % 2 == 1:
+                result += calculate_t_first(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
+            else:
+                result += calculate_t_first(t, i) * y[int((n - i + 1) / 2)][i] / math.factorial(i)
     elif x < points[n // 2][0]:
         for i in range(1, n):
-            result += calculate_t_second(t, i) * y[int((n - i - 1) / 2)][i] / math.factorial(i)
+            if n % 2 == 1:
+                result += calculate_t_second(t, i) * y[int((n - i - 1) / 2)][i] / math.factorial(i)
+            else:
+                result += calculate_t_second(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
 
     return result
 
