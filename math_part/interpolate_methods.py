@@ -73,7 +73,7 @@ def gauss_method(points, x):
             if n % 2 == 1:
                 result += calculate_t_second(t, i) * y[(n - i - 1) // 2][i] / math.factorial(i)
             else:
-                result += calculate_t_second(t, i) * y[(n - i - 2) // 2)][i] / math.factorial(i)
+                result += calculate_t_second(t, i) * y[(n - i - 2) // 2][i] / math.factorial(i)
 
     return result
 
