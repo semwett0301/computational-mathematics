@@ -136,11 +136,20 @@ def bessel_method(points, arg):
     result = 0
 
     for step in range(0, middle + 1):
-        mul = 1
-        for j in range(1, step + 1):
-            mul *= (t - j) * (t + j - 1)
-        result += (1 / math.factorial(2 * step)) * mul * (fin_diff[2 * step][-step + middle] + fin_diff[2 * step][-(step - 1) + middle]) / 2
-        result += (1 / math.factorial(2 * step + 1)) * (t - (1 / 2)) * mul * (fin_diff[2 * step + 1][-step + middle])
+        if t != 0.5:
+            mul = 1
+            for j in range(1, step + 1):
+                mul *= (t - j) * (t + j - 1)
+            result += (1 / math.factorial(2 * step)) * mul * (fin_diff[2 * step][-step + middle] + fin_diff[2 * step][-(step - 1) + middle]) / 2
+            result += (1 / math.factorial(2 * step + 1)) * (t - (1 / 2)) * mul * (fin_diff[2 * step + 1][-step + middle])
+        else:
+            mul = 1
+            k = 1
+            for j in range(1, step + 1):
+                mul *= k
+                k += 2
+            result += (-1) ** step / 2 * mul ** 2 / (2 ** (2 * step)) / math.factorial(2 * step) \
+                      * (fin_diff[2 * step][-step + middle] + fin_diff[2 * step][-(step - 1) + middle])
     return result
 
 
