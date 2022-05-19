@@ -14,6 +14,14 @@ def lagrange_method(points, x):
     return result
 
 
+def check_points(points, n):
+    h = points[1][0] - points[0][0]
+    for i in range(n - 1):
+        if round(points[i + 1][0] - points[i][0], 8) != round(h, 8):
+            return
+    return h
+
+
 def gauss_method(points, x):
     def calculate_t_first(t, length):
         tmp = t
@@ -38,10 +46,9 @@ def gauss_method(points, x):
         return tmp
 
     n = len(points)
-    h = points[1][0] - points[0][0]
-    for i in range(n - 1):
-        if round(points[i + 1][0] - points[i][0], 8) != round(h, 8):
-            return
+    h = check_points(points, n)
+    if h is None:
+        return
 
     y = [[0 for i in range(n)] for j in range(n)]
 
@@ -76,9 +83,9 @@ def gauss_method(points, x):
 
 
 # конечные разности
-def final_differences(y_values):
-    final_diff = [y_values]
-    for i in range(len(y_values) - 1):
+def get_diff(y):
+    final_diff = [y]
+    for i in range(len(y) - 1):
         temp_fin_dif = []
         for j in range(len(final_diff[i]) - 1):
             diff = final_diff[i][j + 1] - final_diff[i][j]
@@ -87,7 +94,7 @@ def final_differences(y_values):
     return final_diff
 
 
-def create_factorial(n):
+def factorial(n):
     result = []
     for i in range(n + 1):
         fact = 1
@@ -97,52 +104,51 @@ def create_factorial(n):
     return result
 
 
-def stirling_method(points, x):
+def stirling_method(points, arg):
     n = len(points)
     if n % 2 == 0:
         return
 
-    h = points[1][0] - points[0][0]
-    for i in range(n - 1):
-        if round(points[i + 1][0] - points[i][0], 8) != round(h, 8):
-            return
+    h = check_points(points, n)
+    if h is None:
+        return
 
-    x_arr = [i[0] for i in points]
-    y_arr = [i[0] for i in points]
 
-    fin_diff = final_differences(y_arr)
-    fact = create_factorial(len(y_arr))
-    mid = len(y_arr) // 2
-    t = (x - x_arr[mid]) / h
-    result = y_arr[mid]
+    x = [i[0] for i in points]
+    y = [i[1] for i in points]
+
+    fin_diff = get_diff(y)
+    fact = factorial(len(y))
+    mid = len(y) // 2
+    t = (arg - x[mid]) / h
+    result = y[mid]
 
     for n in range(1, mid + 1):
         mul = 1
         for j in range(1, n):
             mul *= (t * t - j * j)
         result += 1 / fact[2 * n - 1] * t * mul * (
-                    fin_diff[2 * n - 1][-(n - 1) + mid] + fin_diff[2 * n - 1][-n + mid]) / 2
+                fin_diff[2 * n - 1][-(n - 1) + mid] + fin_diff[2 * n - 1][-n + mid]) / 2
         result += 1 / fact[2 * n] * (t ** 2) * mul * (fin_diff[2 * n][-n + mid])
     return result
 
 
-def bessel_method(points, x):
+def bessel_method(points, arg):
     n = len(points)
     if n % 2 == 1:
         return
 
-    points.sort(key=lambda elem: elem[0])
-    for i in range(n - 1):
-        if round(points[i + 1][0] - points[i][0], 8) != round(h, 8):
-            return
+    h = check_points(points, n)
+    if h is None:
+        return
 
-    x_arr = [i[0] for i in points]
-    y_arr = [i[0] for i in points]
+    x = [i[0] for i in points]
+    y = [i[1] for i in points]
 
-    fin_diff = final_differences(y_arr)
-    fact = create_factorial(len(y_arr))
-    mid = (len(y_arr) - 2) // 2
-    t = (x - x_arr[mid]) / h
+    fin_diff = get_diff(y)
+    fact = factorial(len(y))
+    mid = (len(y) - 2) // 2
+    t = (arg - x[mid]) / h
     result = 0
 
     for n in range(0, mid + 1):
