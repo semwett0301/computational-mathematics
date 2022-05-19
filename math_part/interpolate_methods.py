@@ -65,15 +65,15 @@ def gauss_method(points, x):
     if x > points[a][0]:
         for i in range(1, n):
             if n % 2 == 1:
-                result += calculate_t_first(t, i) * y[(n - i) // 2][i] / math.factorial(i)
+                result += calculate_t_first(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
             else:
-                result += calculate_t_first(t, i) * y[(n - i - 1) // 2][i] / math.factorial(i)
+                result += calculate_t_first(t, i) * y[int((n - i - 1) / 2)][i] / math.factorial(i)
     elif x < points[a][0]:
         for i in range(1, n):
             if n % 2 == 1:
-                result += calculate_t_second(t, i) * y[(n - i - 1) // 2][i] / math.factorial(i)
+                result += calculate_t_second(t, i) * y[int((n - i - 1) / 2)][i] / math.factorial(i)
             else:
-                result += calculate_t_second(t, i) * y[(n - i - 2) // 2][i] / math.factorial(i)
+                result += calculate_t_second(t, i) * y[int((n - i - 2) / 2)][i] / math.factorial(i)
 
     return result
 
