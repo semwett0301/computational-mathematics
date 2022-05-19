@@ -55,20 +55,25 @@ def gauss_method(points, x):
         for j in range(n - i):
             y[j][i] = y[j + 1][i - 1] - y[j][i - 1]
 
-    result = y[n // 2][0]
-    t = (x - points[int(n / 2)][0]) / h
-    if x > points[n // 2][0]:
+    if n % 2 == 1:
+        a = n // 2
+    else:
+        a = n // 2 - 1
+
+    result = y[a][0]
+    t = (x - points[a][0]) / h
+    if x > points[a][0]:
         for i in range(1, n):
             if n % 2 == 1:
-                result += calculate_t_first(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
+                result += calculate_t_first(t, i) * y[(n - i) // 2][i] / math.factorial(i)
             else:
-                result += calculate_t_first(t, i) * y[int((n - i + 1) / 2)][i] / math.factorial(i)
-    elif x < points[n // 2][0]:
+                result += calculate_t_first(t, i) * y[(n - i - 1) // 2][i] / math.factorial(i)
+    elif x < points[a][0]:
         for i in range(1, n):
             if n % 2 == 1:
-                result += calculate_t_second(t, i) * y[int((n - i - 1) / 2)][i] / math.factorial(i)
+                result += calculate_t_second(t, i) * y[(n - i - 1) // 2][i] / math.factorial(i)
             else:
-                result += calculate_t_second(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
+                result += calculate_t_second(t, i) * y[(n - i - 2) // 2)][i] / math.factorial(i)
 
     return result
 
