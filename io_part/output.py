@@ -11,6 +11,7 @@ def print_error(error):
 
 def print_result_of_interpolation(points, x):
     print()
+    points.sort(key=lambda elem: elem[0])
     for method in m.methods:
         result = method[0](points, x)
         if result is not None:

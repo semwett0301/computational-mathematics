@@ -28,6 +28,7 @@ def drawing_functions(source_function, points):
     if source_function is not None:
         plt.plot(x_for_plot, source_function(x_for_plot), linewidth=2.0, label="Исходная функция")
 
+    points.sort(key=lambda elem: elem[0])
     for tmp_method in methods.methods:
         plt.plot(x_for_plot, [tmp_method[0](points, tmp_x) for tmp_x in x_for_plot], linewidth=2.0, label=tmp_method[1])
 
