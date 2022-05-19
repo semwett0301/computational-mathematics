@@ -12,4 +12,8 @@ def print_error(error):
 def print_result_of_interpolation(points, x):
     print()
     for method in m.methods:
-        print(colored(method[1] + ": " + str(method[0](points, x)), 'blue'))
+        result = method[0](points, x)
+        if result is not None:
+            print(colored(method[1] + ": " + str(result), 'blue'))
+        else:
+            print(colored(method[1] + ": " + "нельзя вычислить", 'red'))

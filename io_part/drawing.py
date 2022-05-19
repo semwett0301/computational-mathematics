@@ -18,7 +18,7 @@ def get_y(points):
 
 
 def drawing_functions(source_function, points):
-    plot_space = 1
+    plot_space = 2
     
     x = get_x(points)
     y = get_y(points)
