@@ -83,24 +83,14 @@ def gauss_method(points, x):
 
 
 def get_diff(y):
-    final_diff = [y]
+    fin_diff = [y]
     for i in range(len(y) - 1):
         temp_fin_dif = []
-        for j in range(len(final_diff[i]) - 1):
-            diff = final_diff[i][j + 1] - final_diff[i][j]
+        for j in range(len(fin_diff[i]) - 1):
+            diff = fin_diff[i][j + 1] - fin_diff[i][j]
             temp_fin_dif.append(diff)
-        final_diff.append(temp_fin_dif)
-    return final_diff
-
-
-def factorials(n):
-    result = []
-    for i in range(n + 1):
-        fact = 1
-        for j in range(1, i + 1):
-            fact *= j
-        result.append(fact)
-    return result
+        fin_diff.append(temp_fin_dif)
+    return fin_diff
 
 
 def stirling_method(points, arg):
@@ -115,18 +105,17 @@ def stirling_method(points, arg):
     y = [i[1] for i in points]
 
     fin_diff = get_diff(y)
-    fact = factorials(len(points))
     middle = len(points) // 2
     t = (arg - points[middle][0]) / h
     result = points[middle][1]
 
-    for n in range(1, middle + 1):
+    for step in range(1, middle + 1):
         mul = 1
-        for j in range(1, n):
+        for j in range(1, step):
             mul *= (t * t - j * j)
-        result += 1 / fact[2 * n - 1] * t * mul * (
-                fin_diff[2 * n - 1][-(n - 1) + middle] + fin_diff[2 * n - 1][-n + middle]) / 2
-        result += 1 / fact[2 * n] * (t ** 2) * mul * (fin_diff[2 * n][-n + middle])
+        result += 1 / math.factorial(2 * step - 1) * t * mul * (
+                fin_diff[2 * step - 1][-(step - 1) + middle] + fin_diff[2 * step - 1][-step + middle]) / 2
+        result += 1 / math.factorial(2 * step) * (t ** 2) * mul * (fin_diff[2 * step][-step + middle])
     return result
 
 
@@ -142,17 +131,16 @@ def bessel_method(points, arg):
     y = [i[1] for i in points]
 
     fin_diff = get_diff(y)
-    fact = factorials(len(points))
     middle = (len(points) - 2) // 2
     t = (arg - points[middle][0]) / h
     result = 0
 
-    for n in range(0, middle + 1):
+    for step in range(0, middle + 1):
         mul = 1
-        for j in range(1, n + 1):
+        for j in range(1, step + 1):
             mul *= (t - j) * (t + j - 1)
-        result += (1 / fact[2 * n]) * mul * (fin_diff[2 * n][-n + middle] + fin_diff[2 * n][-(n - 1) + middle]) / 2
-        result += (1 / fact[2 * n + 1]) * (t - (1 / 2)) * mul * (fin_diff[2 * n + 1][-n + middle])
+        result += (1 / math.factorial(2 * step)) * mul * (fin_diff[2 * step][-step + middle] + fin_diff[2 * step][-(step - 1) + middle]) / 2
+        result += (1 / math.factorial(2 * step + 1)) * (t - (1 / 2)) * mul * (fin_diff[2 * step + 1][-step + middle])
     return result
 
 
