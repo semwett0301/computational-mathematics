@@ -17,20 +17,24 @@ def lagrange_method(points, x):
 def gauss_method(points, x):
     def calculate_t_first(t, length):
         tmp = t
+        k = 1
         for i in range(1, length):
             if i % 2 == 1:
-                tmp *= (t - i)
+                tmp *= (t - k)
             else:
-                tmp *= (t + i)
+                tmp *= (t + k)
+                k += 1
         return tmp
 
     def calculate_t_second(t, length):
         tmp = t
+        k = 1
         for i in range(1, length):
             if i % 2 == 1:
-                tmp *= (t + i)
+                tmp *= (t + k)
             else:
-                tmp *= (t - i)
+                tmp *= (t - k)
+                k += 1
         return tmp
 
     n = len(points)
@@ -46,8 +50,6 @@ def gauss_method(points, x):
 
     for i in range(n):
         y[i][0] = points[i][1]
-        if abs(points[i][0] - x) <= 0.000001:
-            return points[i][1]
 
     for i in range(1, n):
         for j in range(n - i):
