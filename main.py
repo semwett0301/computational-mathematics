@@ -1,5 +1,5 @@
 from io_part import input as inp, output, drawing as draw
-from math_part import functions as func, interpolate_methods as methods
+from math_part import functions as func
 
 interpolate_function = None
 
