@@ -82,7 +82,6 @@ def gauss_method(points, x):
     return result
 
 
-# конечные разности
 def get_diff(y):
     final_diff = [y]
     for i in range(len(y) - 1):
@@ -94,7 +93,7 @@ def get_diff(y):
     return final_diff
 
 
-def factorial(n):
+def factorials(n):
     result = []
     for i in range(n + 1):
         fact = 1
@@ -113,23 +112,21 @@ def stirling_method(points, arg):
     if h is None:
         return
 
-
-    x = [i[0] for i in points]
     y = [i[1] for i in points]
 
     fin_diff = get_diff(y)
-    fact = factorial(len(y))
-    mid = len(y) // 2
-    t = (arg - x[mid]) / h
-    result = y[mid]
+    fact = factorials(len(points))
+    middle = len(points) // 2
+    t = (arg - points[middle][0]) / h
+    result = points[middle][1]
 
-    for n in range(1, mid + 1):
+    for n in range(1, middle + 1):
         mul = 1
         for j in range(1, n):
             mul *= (t * t - j * j)
         result += 1 / fact[2 * n - 1] * t * mul * (
-                fin_diff[2 * n - 1][-(n - 1) + mid] + fin_diff[2 * n - 1][-n + mid]) / 2
-        result += 1 / fact[2 * n] * (t ** 2) * mul * (fin_diff[2 * n][-n + mid])
+                fin_diff[2 * n - 1][-(n - 1) + middle] + fin_diff[2 * n - 1][-n + middle]) / 2
+        result += 1 / fact[2 * n] * (t ** 2) * mul * (fin_diff[2 * n][-n + middle])
     return result
 
 
@@ -142,21 +139,20 @@ def bessel_method(points, arg):
     if h is None:
         return
 
-    x = [i[0] for i in points]
     y = [i[1] for i in points]
 
     fin_diff = get_diff(y)
-    fact = factorial(len(y))
-    mid = (len(y) - 2) // 2
-    t = (arg - x[mid]) / h
+    fact = factorials(len(points))
+    middle = (len(points) - 2) // 2
+    t = (arg - points[middle][0]) / h
     result = 0
 
-    for n in range(0, mid + 1):
+    for n in range(0, middle + 1):
         mul = 1
         for j in range(1, n + 1):
             mul *= (t - j) * (t + j - 1)
-        result += (1 / fact[2 * n]) * mul * (fin_diff[2 * n][-n + mid] + fin_diff[2 * n][-(n - 1) + mid]) / 2
-        result += (1 / fact[2 * n + 1]) * (t - (1 / 2)) * mul * (fin_diff[2 * n + 1][-n + mid])
+        result += (1 / fact[2 * n]) * mul * (fin_diff[2 * n][-n + middle] + fin_diff[2 * n][-(n - 1) + middle]) / 2
+        result += (1 / fact[2 * n + 1]) * (t - (1 / 2)) * mul * (fin_diff[2 * n + 1][-n + middle])
     return result
 
 
