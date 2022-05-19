@@ -46,18 +46,19 @@ def gauss_method(points, x):
 
     for i in range(n):
         y[i][0] = points[i][1]
+        if abs(points[i][0] - x) <= 0.000001:
+            return points[i][1]
 
     for i in range(1, n):
         for j in range(n - i):
             y[j][i] = y[j + 1][i - 1] - y[j][i - 1]
 
-
-    result = y[int(n / 2)][0]
+    result = y[n // 2][0]
     t = (x - points[int(n / 2)][0]) / h
-    if x > points[int(n / 2)][0]:
+    if x > points[n // 2][0]:
         for i in range(1, n):
             result += calculate_t_first(t, i) * y[int((n - i) / 2)][i] / math.factorial(i)
-    elif x < points[int(n / 2)][0]:
+    elif x < points[n // 2][0]:
         for i in range(1, n):
             result += calculate_t_second(t, i) * y[int((n - i - 1) / 2)][i] / math.factorial(i)
 
