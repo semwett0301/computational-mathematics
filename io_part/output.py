@@ -1,5 +1,3 @@
-import os
-
 from math_part import interpolate_methods as m
 
 from termcolor import colored
