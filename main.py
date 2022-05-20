@@ -1,16 +1,10 @@
-# This is a sample Python script.
+from io_part import input as inp, output
+from math_part import functions as func
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+interpolate_function = func.functions[inp.input_function()]["value"]
+y0 = inp.input_initial_parameter("Введите y(x0): ")
 
+a, b = inp.input_borders()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+h = inp.input_positive_parameter("Введите шаг: ")
+e = inp.input_positive_parameter("Введите точность: ")
