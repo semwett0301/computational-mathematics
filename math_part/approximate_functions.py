@@ -198,7 +198,7 @@ def log_app(points):
     n = len(points)
 
     for i in points:
-        if i[1] <= 0:
+        if i[0] <= 0:
             return {
                 "name": "Логарифмическая",
                 "function": None,
