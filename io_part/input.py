@@ -21,21 +21,6 @@ def input_function():
             o.print_error("Некорректный формат ввода")
 
 
-def input_borders():
-    while True:
-        try:
-            a = float(input("Введите левую границу интервала: "))
-            b = float(input("Введите правую границу интервала: "))
-            if not a < x0 < b:
-                o.print_error("Введите границы в формате a < x0 < b")
-                continue
-
-            return a, b
-
-        except ValueError:
-            o.print_error("Некорректный формат ввода")
-
-
 def input_initial_parameter(message):
     while True:
         try:
