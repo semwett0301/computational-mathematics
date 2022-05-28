@@ -20,7 +20,7 @@ def euler_method(source_function, a, b, y0, h, e):
     return points
 
 
-def milna_method(source_function, a, b, y0, h, e):
+def miln_method(source_function, a, b, y0, h, e):
     def calculate_predicted(points):
         return points[num - 4][1] + 4 * h * \
             (2 * source_function(points[num - 3][0], points[num - 3][1]) - source_function(points[num - 2][0], points[num - 2][1])
@@ -65,5 +65,5 @@ def milna_method(source_function, a, b, y0, h, e):
 
 methods = [
     [euler_method, "Эйлера"],
-    [milna_method, "Милна"]
+    [miln_method, "Милна"]
 ]
