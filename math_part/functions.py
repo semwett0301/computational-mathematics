@@ -12,11 +12,11 @@ functions = {
         "y0": 0
     },
     2: {
-        "function": "y' = y + (1 + x) * y^2 на [1; 1.5] при y(1) = -1",
+        "function": "y' = y + (1 + x) * y^2 на [1; 5] при y(1) = -1",
         "value": lambda x, y: y + (1 + x) * y ** 2,
         "solution": lambda x: - 1 / x,
         "a": 1,
-        "b": 1.5,
+        "b": 5,
         "y0": -1
     },
     3: {

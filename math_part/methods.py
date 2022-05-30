@@ -1,3 +1,5 @@
+from termcolor import colored
+
 def euler_method(source_function, a, b, y0, h, e):
     x = a
     y = y0
@@ -15,26 +17,29 @@ def euler_method(source_function, a, b, y0, h, e):
         y = new_y
         points.append([x, new_y])
 
-    points.pop(len(points) - 1)
+    print(colored(h, 'red'))
+
+    if points[-1][0] > b:
+        points.pop(len(points) - 1)
 
     return points
 
 
 def miln_method(source_function, a, b, y0, h, e):
-    def calculate_predicted(points):
+    def calculate_predicted(points, h):
         return points[num - 4][1] + 4 * h * \
             (2 * source_function(points[num - 3][0], points[num - 3][1]) - source_function(points[num - 2][0], points[num - 2][1])
                 + 2 * source_function(points[num - 1][0], points[num - 1][1])) / 3
 
-    def calculate_correct(points, y_predicted):
+    def calculate_correct(points, y_predicted, h):
         return points[num - 2][1] + h * (source_function(points[num - 2][0], points[num - 2][1])
                                   + 4 * source_function(points[num - 1][0], points[num - 1][1])
                                   + source_function(points[num - 1][0] + h, y_predicted)) / 3
 
-    x = a
+    init_h = h
+    init_x = x = a
     y = y0
     points = [[x, y]]
-    count = 1
     while x <= b:
         new_y = y + h * source_function(x, y)
         new_y_h_2 = y + h * source_function(x, y) / 2
@@ -46,20 +51,24 @@ def miln_method(source_function, a, b, y0, h, e):
 
         x += h
         y = new_y
-        points.append([x, new_y])
-        count += 1
-        if count == 4:
+
+        if x == init_x + init_h:
+            points.append([x, new_y])
+            init_x += init_h
+
+        if len(points) == 4:
             break
 
 
-    for num in range(4, int((b - a) / h) + 1):
-        y_predicted = calculate_predicted(points)
+    for num in range(4, int((b - a) / init_h) + 1):
+        y_predicted = calculate_predicted(points, init_h)
 
-        y_correct = calculate_correct(points, y_predicted)
+        y_correct = calculate_correct(points, y_predicted, init_h)
         while abs(y_predicted - y_correct) > e:
             y_predicted = y_correct
-            y_correct = calculate_correct(points, y_predicted)
-        points.append((points[num - 1][0] + h, y_correct))
+            y_correct = calculate_correct(points, y_predicted, init_h)
+        points.append((points[num - 1][0] + init_h, y_correct))
+
     return points
 
 
